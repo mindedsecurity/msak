@@ -231,16 +231,16 @@ def discover_by_template(modbus_client, slave_address, function_code, template=N
 # if --tcp --host is required and --port is set as default
 tcpargs = argparse.ArgumentParser(add_help=False)
 tcpargs.add_argument('--tcp', action='store_true',
-                     dest='is_tcp', help='server will connect through TCP')
+                     dest='is_tcp', help='Connect through TCP/IP')
 tcpargs.add_argument('--host', dest='host',
-                     help='the hostname of the ModBus Server')
+                     help='The hostname of the ModBus Server')
 tcpargs.add_argument('--port', dest='port', type=int,
-                     default=502, help='the port of the ModBus Server')
+                     default=502, help='The port of the ModBus Server')
 
 # if type serial
 serialargs = argparse.ArgumentParser(add_help=False)
 serialargs.add_argument('--serial', action='store_true',
-                        dest='is_serial', default=True)
+                        dest='is_serial', default=True, help='Connect through Serial (RTU)')
 serialargs.add_argument('-p', dest='path',   action='store', default='/dev/ttyUSB0',
                         help='Serial device path (defaults /dev/ttyUSB0)')
 serialargs.add_argument('--speed', dest='bauds',  action='store', default=19200,
