@@ -12,11 +12,11 @@ usage: msak.py [-h] [--tcp] [--host HOST] [--port PORT] [--serial] [-p PATH] [--
 ModBus Swiss Army Knife [M-SAK]. Based on Specification: https://modbus.org/docs/Modbus_Application_Protocol_V1_1b3.pdf
 
 options:
-  -h, --help           show this help message and exit
-  --tcp                server will connect through TCP
-  --host HOST          the hostname of the ModBus Server
-  --port PORT          the port of the ModBus Server
-  --serial
+  -h, --help           Show this help message and exit
+  --tcp                Connect through TCP
+  --host HOST          The hostname of the ModBus Server
+  --port PORT          The port of the ModBus Server
+  --serial             Connect through Serial (RTU)
   -p PATH              Serial device path (defaults /dev/ttyUSB0)
   --speed BAUDS        Serial device speed (defaults 19200)
   --parity PARITY      Serial device parity (defaults NONE 'N')
@@ -44,18 +44,12 @@ msak --serial -p /dev/ttyUSB0 -R -d '010300013018' --no-crc # without CRC
 #Scan all function codes:
 msak --serial -p /dev/ttyUSB0 -S -d '01030' 
 
-=== ModBus Packet Reminder Schema:
-
-Modbus PDU packet:    *PDU* = <FunctionCode(1Byte)><Data(nBytes)>
-Modbus Serial Packet: <SlaveId(1Byte)><*PDU*><CRC16(2Bytes)>
-Modbus TCP Packet:    <TransId(2Bytes)>0000<LenghtOfPDU(2Bytes)><SlaveId(1Byte)><*PDU*>
-
   ```
 
 E.g.:
 
 ### Service Scan:
-It will scan all functions [1-127] using the given payload:
+Scan all functions codes [1-127] using the given payload and then will print a summary grouped according to the responses:
 
 ```
 python3 msak.py -S -d '0001'
@@ -68,6 +62,7 @@ Requested Data \x01\x03\x00\x01\x91\xD8
 ```
 
 ### Diagnostic Scan:
+Scan all diagnostic codes [1-255] using the given payload and then will print a summary grouped according to the responses:
 ```
 $ python3 msak.py -D -d '0001'
 >>>>>>>>>>>>>>>>>> Data:  b'\x00\x01'
@@ -89,6 +84,7 @@ In particular it's possible to use the following special sequences:
  * {@/path/to/file}: using @ char the sequence will be taken from a file.
  * 00-FF: will create a single byte. 
 
+When completed it will print a summary grouped according to the responses.
 ```
 python3 msak.py -C -d '0001{[0,3]}'
 
@@ -131,5 +127,7 @@ DATA = Depends on FunctionID
 
 ## Over TCP/IP
 
+```
 Modbus PDU packet:    _PDU_ = <FunctionCode(1Byte)><Data(nBytes)>
 Modbus TCP Packet:    <TransId(2Bytes)>0000<LenghtOfPDU(2Bytes)><SlaveId(1Byte)><_PDU_>
+```
