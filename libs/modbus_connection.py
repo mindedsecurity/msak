@@ -159,7 +159,7 @@ class ModBusConnection():
             host = kwargs.pop("host", None)
 
             self.client = ModbusTcpClient(
-                port=5020, host="127.0.0.1", **kwargs)
+                port=port, host=host, **kwargs)
         elif self.type == 'udp':
             raise Exception("Not Yet Implemented")
             host = kwargs.get("host", None)
