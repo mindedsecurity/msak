@@ -345,7 +345,7 @@ try:
 
     if args.custom_scan is False:
         try:
-            data = bytes.fromhex(args.data_payload)
+            data = bytes.fromhex(args.data_payload.replace(r'\x',''))
         except:
             logger.error(
                 "Got error in parsing the data payload. Please ensure using only hexadecimal text")
@@ -365,6 +365,8 @@ try:
     if args.serv_scan is True:
         if slave_address is None:
             slave_address = 1
+
+        print(modbus_args)
         discover_services(modbus_client, slave_address, data)
 
 #################################################################
