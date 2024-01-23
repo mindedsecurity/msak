@@ -78,11 +78,11 @@ Requested Data \x01\x07\x00\x02\x00\x01\xD4\x0A
 It's possible to create custom multiple payloads using a templating format. 
 
 In particular it's possible to use the following special sequences:
- * {R[min,max,pack_format]}: Creates a sequence of numbers from min to max and encodes it using the struct.pack format ('B','>H' etc). It will create (max-min) payloads. 
- * {r{bytesequence_length, ar_len}}: Creates an array of 'ar_len' length where each element is a randome sequence of bytes of 'bytesequence_length' length
- * {[n1, n2, n3 ...]}: Adds to the payload  the numbers and will create a set of payload according to the length of the array. 
- * {@/path/to/file}: using @ char the sequence will be taken from a file.
- * 00-FF: will create a single byte. 
+ * RANGE:  {R[min,max,pack_format]}: Creates a sequence of numbers from min to max and encodes it using the struct.pack format ('B','>H' etc). It will create (max-min) payloads. 
+ * RANDOM:  {r{bytesequence_length, ar_len}}: Creates an array of 'ar_len' length where each element is a randome sequence of bytes of 'bytesequence_length' length
+ * ARRAY:   {[n1, n2, n3 ...]}: Adds to the payload  the numbers and will create a set of payload according to the length of the array. 
+ * FROM FILE: {@/path/to/file}: using @ char the sequence will be taken from a file.
+ * CONSTANT:  00-FF: will create a single byte. 
 
 When completed it will print a summary grouped according to the responses.
 ```
