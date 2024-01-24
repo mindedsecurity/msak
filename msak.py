@@ -5,7 +5,7 @@
 from libs.crc16modbus import calculate_crc
 from libs.modbus_connection import ModBusConnection, ModBus_Packet, ModBus_Request_Packet
 from libs.modbus_constants import *
-from libs.payload_generator import Payload_Generator
+from libs import Payload_Generator
 #########################################
 
 import serial
@@ -95,9 +95,8 @@ def discover_services(modbus_client, slave_address, data):
             raw_packet=data, packet_type=type, slave_id=slave_address, function_code=function_code, use_crc=args.use_crc)
 
         print(strtohex(pckt.finalize_packet()))
-        modbus_client.send(pckt.finalize_packet())
-        response_data = modbus_client.recv()
-
+        response_data = modbus_client.send_and_recv(pckt)
+                
         logger.info("Response Data:", response_data,
                     response_data.tohex(), response_data.raw)
 
@@ -136,9 +135,8 @@ def discover_diagnostic(modbus_client, slave_address, function_code=7, data=None
             raw_packet=struct.pack('>H', subfunction)+data, packet_type=type, slave_id=slave_address, function_code=function_code, use_crc=args.use_crc)
 
         print(strtohex(pckt.finalize_packet()))
-        modbus_client.send(pckt.finalize_packet())
-        response_data = modbus_client.recv()
-
+        response_data = modbus_client.send_and_recv(pckt)
+        
         logger.info("Response Data:", response_data,
                     response_data.tohex(), response_data.raw)
         response_exception = response_data.get_exception_id()
@@ -197,24 +195,25 @@ def discover_by_template(modbus_client, slave_address, function_code, template=N
             raw_packet=data, packet_type=type, slave_id=slave_address, function_code=function_code, use_crc=args.use_crc, is_raw=True)
 
         print(strtohex(pckt.finalize_packet()))
-        modbus_client.send(pckt.finalize_packet())
-        response_data = modbus_client.recv()
+        response_data = modbus_client.send_and_recv(pckt)
+        
 
     #################################################################
         # Check Response:
-        print("Response Data:", response_data,
+        if response_data:
+            print("Response Data:", response_data,
               response_data.tohex(), response_data.raw)
 
-        response_exception = response_data.get_exception_id()
-        if response_exception:
-            results.setdefault(EXC_CODES.get(
-                response_exception, response_exception), []).append(data)
-        else:
-            raw_pckt = response_data.raw
-            if len(raw_pckt) == 0:
-                results.setdefault('NO_RESPONSE', []).append(data)
+            response_exception = response_data.get_exception_id()
+            if response_exception:
+                results.setdefault(EXC_CODES.get(
+                    response_exception, response_exception), []).append(data)
             else:
-                results.setdefault('ACCEPTED_WITH_RESPONSE', []).append(data)
+                raw_pckt = response_data.raw
+                if len(raw_pckt) == 0:
+                    results.setdefault('NO_RESPONSE', []).append(data)
+                else:
+                    results.setdefault('ACCEPTED_WITH_RESPONSE', []).append(data)
 
     print(results)
 
@@ -391,9 +390,8 @@ try:
         pckt = ModBus_Request_Packet(
             raw_packet=data, packet_type=type, function_code=None, use_crc=args.use_crc, is_raw=True)
         print(pckt.finalize_packet())
-        modbus_client.send(pckt.finalize_packet())
-        response_data = modbus_client.recv()
-
+        response_data = modbus_client.send_and_recv(pckt)
+        
         # response_data = modbus_request(
         #     modbus_client, slave_address, function_code, data, check_response=True, is_raw=True)
         print(
@@ -415,8 +413,7 @@ try:
         pckt = ModBus_Request_Packet(
             raw_packet=data, packet_type=type, slave_id=slave_address, function_code=function_code, use_crc=args.use_crc)
         print(pckt.finalize_packet())
-        modbus_client.send(pckt.finalize_packet())
-        response_data = modbus_client.recv()
+        response_data = modbus_client.send_and_recv(pckt)
 
         print(
             f"==Data Response==\nHas Exception: {response_data.has_exception()}\nHex Content: {response_data.tohex()}")

@@ -1,7 +1,7 @@
 import struct
 from libs.crc16modbus import calculate_crc
 from pymodbus.client import ModbusSerialClient, ModbusTcpClient, ModbusUdpClient, ModbusTlsClient
-
+from pymodbus.exceptions import ConnectionException
 
 # SETUP LOGGING
 import logging
@@ -188,6 +188,29 @@ class ModBusConnection():
         logger.debug(f'Sending: {prepared_pckt}')
 
         return self.send_raw(prepared_pckt)
+    
+    def send_and_recv(self,pckt, size = 2048):
+        import socket
+        import time
+        try:
+            self.send(pckt.finalize_packet())
+            return self.recv(size)
+        except ConnectionException as exc:
+            if self.is_tcp:
+                connected = False  
+                print( "connection lost... reconnecting" )  
+                while not connected:  
+                    # attempt to reconnect, otherwise sleep for 2 seconds  
+                    try:  
+                        self.connect()
+                        connected = True  
+                        print( "re-connection successful" ) 
+                        return ModBus_Response_Packet(self.type,b'')
+                    except socket.error:  
+                        time.sleep( 2 )
+            else:
+                raise exc
+
 
 ### TODO Add managing abrupt disconnections from Server
     def recv_raw(self, size):
