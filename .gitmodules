@@ -1,0 +1,3 @@
+[submodule "libs/payload_generator"]
+	path = libs/payload_generator
+	url = git@github.com:mindedsecurity/simple_payload_generator.git
