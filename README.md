@@ -1,3 +1,4 @@
+![](https://visitor-badge.laobi.icu/badge?page_id=wisec.msak)
 # ModBus Swiss Army Knife
 
 The MSAK is a tool written in Python to help discovering and testing exposed standard and custom services of ModBus Servers/Slaves over Serial or TCP/IP connections.
