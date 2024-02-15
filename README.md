@@ -5,9 +5,9 @@ It also offers a highly customizable payload generator that will help the tester
 
 # Cloning
 
-Use --recurse-modules
+Use --recurse-submodules
 
-```git clone --recurse-submodules https://github.com/mindedsecurity/msak
+```git clone --recurse-submodules https://github.com/mindedsecurity/msak```
 
 # MSAK Tool
 
