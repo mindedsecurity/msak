@@ -1,4 +1,3 @@
-![](https://visitor-badge.laobi.icu/badge?page_id=wisec.msak)
 # ModBus Swiss Army Knife
 
 The MSAK is a tool written in Python to help discovering and testing exposed standard and custom services of ModBus Servers/Slaves over Serial or TCP/IP connections.
@@ -138,3 +137,5 @@ DATA = Depends on FunctionID
 Modbus PDU packet:    _PDU_ = <FunctionCode(1Byte)><Data(nBytes)>
 Modbus TCP Packet:    <TransId(2Bytes)>0000<LenghtOfPDU(2Bytes)><SlaveId(1Byte)><_PDU_>
 ```
+
+![](https://visitor-badge.laobi.icu/badge?page_id=wisec.msak)
