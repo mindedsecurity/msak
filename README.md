@@ -3,6 +3,12 @@
 The MSAK is a tool written in Python to help discovering and testing exposed standard and custom services of ModBus Servers/Slaves over Serial or TCP/IP connections.
 It also offers a highly customizable payload generator that will help the tester to perform complex scans using a simple but powerful templating format.
 
+# Cloning
+
+Use --recurse-modules
+
+```git clone --recurse-submodules https://github.com/mindedsecurity/msak
+
 # MSAK Tool
 
 ```python3 msak.py -h
