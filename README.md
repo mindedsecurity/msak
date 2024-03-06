@@ -100,7 +100,7 @@ b'\x00\x01\x03'
 
 python3 msak.py -C -d '0001{R[0,3,">H"]}FF{r[3,2]}00'
 
-will scann the slave using the following set of generated payloads:
+will scan the slave using the following set of generated payloads:
 b'\x00\x01\x00\x00\xff\xa3\x91\xa7\x00'
 b'\x00\x01\x00\x00\xff6\x9fr\x00'
 b'\x00\x01\x00\x01\xff\xa3\x91\xa7\x00'
