@@ -3,6 +3,7 @@
 MSAK is a tool written in Python to help discovering and testing exposed standard and custom services of ModBus Servers/Slaves over Serial or TCP/IP connections.
 It also offers a highly customizable payload generator that will help the tester to perform complex scans using a simple but powerful templating format.
 
+It was created to facilitate the security analysis of Modbus systems, as described on [Minded Security Blog](https://blog.mindedsecurity.com/2024/03/testing-security-of-modbus-services.html).
 # Cloning
 
 Use --recurse-submodules
